@@ -1,0 +1,23 @@
+-- Script para teleportar todos os jogadores de um servidor para outro mapa
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+
+local DESTINO_PLACE_ID = 18349028702 -- <<<<< Substitua pelo PlaceId do mapa de destino
+
+-- Função para teleportar todos
+local function teleportarTodos()
+    local listaJogadores = Players:GetPlayers()
+    TeleportService:TeleportPartyAsync(DESTINO_PLACE_ID, listaJogadores)
+end
+
+-- Chame a função como desejar. Por exemplo, automaticamente ao iniciar:
+teleportarTodos()
+
+-- Ou, para teleportar com um comando no chat, use:
+Players.PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(msg)
+        if msg == "!teleportartodos" and player.UserId == game.CreatorId then
+            teleportarTodos()
+        end
+    end)
+end)
